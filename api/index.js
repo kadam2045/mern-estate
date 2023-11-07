@@ -17,12 +17,7 @@ app.use(express.json());
 
 app.use(cors());
 
-app.use("/api", userRoute);
 app.use("/api/auth", authRoute);
-
-app.get("/demo", (req, res) => {
-  res.send("hello");
-});
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -32,7 +27,6 @@ app.use((err, req, res, next) => {
     statusCode,
     message,
   });
-  console.log(err, "myyyy");
 });
 
 app.listen(3002, () => {

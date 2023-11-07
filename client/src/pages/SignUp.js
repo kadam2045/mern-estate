@@ -14,26 +14,29 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
-      console.log(formData, "formdsys");
-      const response = await axios.post(
-        "http://localhost:3002/api/auth/signup",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(response, "respeoms");
+      setLoading(true);
+      const res = await fetch("http://localhost:3002/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.success === false) {
+        setLoading(false);
+        setError(data.message);
+        return;
+      }
       setLoading(false);
-      console.log(response.data, "hahah");
+      setError(null);
     } catch (error) {
-      console.error("An error occurred:", error);
+      setLoading(false);
+      setError(error.message);
     }
   };
-
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-center text-3xl font-semibold my-7 ">SignUp</h1>
