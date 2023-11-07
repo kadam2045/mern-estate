@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 const SignUp = () => {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -16,6 +18,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       setLoading(true);
+
       const res = await fetch("http://localhost:3002/api/auth/signup", {
         method: "POST",
         headers: {
@@ -23,8 +26,9 @@ const SignUp = () => {
         },
         body: JSON.stringify(formData),
       });
+
       const data = await res.json();
-      console.log(data);
+
       if (data.success === false) {
         setLoading(false);
         setError(data.message);
@@ -76,6 +80,7 @@ const SignUp = () => {
           <span className="text-blue-500">Sign In</span>
         </Link>
       </div>
+      {error && <p className="text-red-500 mt-5">{error}</p>}
     </div>
   );
 };
